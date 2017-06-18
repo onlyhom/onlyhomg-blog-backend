@@ -1,0 +1,227 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  -webkit-box-sizing: border-box;
+  /* Safari */
+}
+.row {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.row:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.col-12,
+.col-11,
+.col-10,
+.col-9,
+.col-8,
+.col-7,
+.col-6,
+.col-5,
+.col-4,
+.col-3,
+.col-2,
+.col-1 {
+  display: block;
+  position: relative;
+  min-height: 1px;
+  padding-right: -5px;
+  padding-left: -5px;
+}
+.col-12:after,
+.col-11:after,
+.col-10:after,
+.col-9:after,
+.col-8:after,
+.col-7:after,
+.col-6:after,
+.col-5:after,
+.col-4:after,
+.col-3:after,
+.col-2:after,
+.col-1:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.col-11,
+.col-10,
+.col-9,
+.col-8,
+.col-7,
+.col-6,
+.col-5,
+.col-4,
+.col-3,
+.col-2,
+.col-1 {
+  float: left;
+}
+.col-12 {
+  width: 100%;
+}
+.col-11 {
+  width: 91.66666667%;
+}
+.col-10 {
+  width: 83.33333333%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-8 {
+  width: 66.66666667%;
+}
+.col-7 {
+  width: 58.33333333%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-5 {
+  width: 41.66666667%;
+}
+.col-4 {
+  width: 33.33333333%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-2 {
+  width: 16.66666667%;
+}
+.col-1 {
+  width: 8.33333333%;
+}
+body {
+  background: #f5f5f5;
+}
+.status-box {
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+  background: white;
+}
+.line {
+  margin-bottom: 5px;
+}
+nav {
+  background: black;
+  padding: 0 10px;
+}
+nav a {
+  color: white;
+  line-height: 40px;
+  text-decoration: none;
+}
+nav a.on {
+  text-decoration: underline;
+}
+.article-list {
+  margin-top: 10px;
+}
+.article-list .cell {
+  background: white;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+.article-list .cell .detail {
+  color: #666;
+}
+.pages {
+  background: black;
+  color: white;
+  padding: 10px 10px;
+}
+.pages a {
+  color: white;
+  text-decoration: none;
+}
+.pages .col-6 {
+  text-align: center;
+}
+.pages .next {
+  text-align: right;
+}
+.article-detail {
+  background: white;
+  padding: 10px;
+  margin-top: 30px;
+  min-height: 400px;
+}
+.article-detail .title {
+  text-align: center;
+}
+.article-detail .info {
+  text-align: center;
+}
+.warning {
+  background: orange;
+  text-align: center;
+  color: white;
+}
+.msg-input {
+  padding: 50px 0;
+}
+.msg-input textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+}
+.msg-input input[type="button"] {
+  display: inline-block;
+  text-align: center;
+  background: black;
+  color: white;
+  cursor: pointer;
+  border: none;
+  padding: 8px 20px;
+  margin-top: 10px;
+}
+.msg-list {
+  padding-bottom: 40px;
+}
+.msg-list .cell {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.msg-list .cell .info {
+  color: #999;
+}
+.msg-list .cell .info:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.msg-list .cell .info .name {
+  float: left;
+}
+.msg-list .cell .info .time {
+  float: right;
+}
+.msg-list .cell .detail {
+  color: #333;
+}
+.comments-size {
+  text-align: right;
+}
+.pager {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+.pager a {
+  color: white;
+  text-decoration: none;
+}

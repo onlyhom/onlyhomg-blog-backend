@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>my blog</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <script src="/public/js/jquery-1.10.2.min.js"></script>
+    <script src="/public/js/index.js"></script>
+</head>
+<body>
+<h1>hello my blog</h1>
+
+{% if userInfo._id %}
+<div class="status-box user-box">
+    <p>你好，<span class="username">{{ userInfo.username }}</span></p>
+
+    {% if userInfo.isAdmin %}
+    <p>你是管理员，<a href="admin">进入管理</a></p>
+    {% else %}
+    <p>欢迎来到我的博客~</p>
+    {% endif %}
+
+    <a href="javascript:;" id="logout">退出登录</a>
+</div>
+
+{% else %}
+<div class="status-box login-box">
+    <p>登录</p>
+    <table>
+        <tr>
+            <th>用户名：</th>
+            <td><input type="text" type="text" name="username"></td>
+        </tr>
+        <tr>
+            <th>密码：</th>
+            <td><input type="password" type="text" name="password"></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td> <input type="button" value="登录-ajax" class="btn-submit"></td>
+        </tr>
+    </table>
+    <div>还没注册？马上<a class="link" href="javascript:;">注册</a></div>
+    <div class="tips"></div>
+</div>
+<div class="status-box register-box" style="display: none;">
+    <form action="/api/user/register" method="post">
+        <p>注册</p>
+        <table>
+            <tr>
+                <th>用户名：</th>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <th>密码：</th>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <th>确认密码：</th>
+                <td><input type="password" name="repassword"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="button" value="注册-ajax" class="btn-submit">
+                    <input type="submit" value="注册-form">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div>已有账号？马上<a class="link" href="javascript:;">登录</a></div>
+    <div class="tips"></div>
+</div>
+{% endif %}
+
+<!--分类导航-->
+<nav>
+    <div class="menu">
+        {% if category == '' %}
+        <a href="/" class="on">首页</a>
+        {% else %}
+        <a href="/">首页</a>
+        {% endif %}
+
+        {% for item in categories %}
+        {% if category == item.id %}
+        <a href="/?category={{ item.id }}" class="on">{{ item.name }}</a>
+        {% else %}
+        <a href="/?category={{ item.id }}">{{ item.name }}</a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</nav>
+
+{% block content %} {% endblock %}
+
+
+</body>
+</html>

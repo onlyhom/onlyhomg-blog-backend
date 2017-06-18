@@ -1,0 +1,170 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+
+    <div class="article-detail">
+        <div class="title">{{ content.title }}</div>
+        <div class="info">
+            <i>作者：{{ content.user.username }}</i>
+            <i>时间：{{ content.addTime | date('Y-m-d H:i:s', -8*60) }}</i>
+            <i>阅读：{{ content.views }}</i>
+            <i>评论：{{ content.comments.length }}</i>
+        </div>
+        <div class="detail">
+            {{ content.content }}
+        </div>
+    </div>
+
+
+    {% if userInfo._id %}
+        <form action="" class="msg-input">
+            <textarea name="" id="messageContent" cols="30" rows="10"></textarea>
+            <input type="hidden" id="contentId" value="{{content.id}}">
+            <input type="button" id="messageBtn" value="提交评论">
+        </form>
+
+    {% else %}
+        <div class="warning">登录后才可留言</div>
+    {% endif %}
+
+    <p id="comments-size" class="comments-size"></p>
+
+    <div class="msg-list">
+    </div>
+
+
+
+<ul class="pager row">
+    <li class="col-3 prev">
+        <a href="javascript:;">上一页</a>
+    </li>
+
+    <li class="col-6">
+        <i id="page"></i> / <i id="pages"></i>
+    </li>
+
+    <li class="col-3 next">
+        <a href="javascript:;">下一页</a>
+    </li>
+</ul>
+
+
+
+<script>
+
+var perpage = 2;
+var page = 1;
+var pages = 0;
+var comments = [];
+
+$('#perpage').text(perpage);
+
+function renderComment() {
+    var html = '';
+    $('#comments-size').text('一共有'+ comments.length +'条评论');
+
+    pages = Math.max(1,Math.ceil(comments.length / perpage));
+    $('#pages').text(pages); //总页数
+    $('#page').text(page); //当前页
+
+    var start = Math.max(0, (page-1) * perpage);
+    var end = Math.min(start + perpage-1, comments.length-1);
+
+    if(page <= 1){
+        page = 1;
+        $('.prev').html('没有上一页了');
+    }else{
+        $('.prev').html('<a href="javascript:;">上一页</a>');
+    }
+
+    if(page >= pages){
+        page = pages;
+        $('.next').html('没有下一页了');
+    }else{
+        $('.next').html('<a href="javascript:;">下一页</a>');
+    }
+
+
+    if(comments.length<=0){
+        html += '<div class="cell">目前还没有评论><</div>';
+        $('.pager').hide();
+    }else{
+        for(var i=start; i<= end; i++){
+            html += '<div class="cell">'+
+                '<div class="info">'+
+                '<div class="name">'+ comments[i].username +'</div>'+
+                '<div class="time">'+ formateDate(comments[i].postTime) +'</div>'+
+                '</div>'+
+                '<div class="detail">'+
+                comments[i].content +
+                '</div>'+
+                '</div>';
+        }
+    }
+
+    $('.msg-list').html(html);
+}
+
+//提交评论
+$('#messageBtn').on('click',function(){
+    $.ajax({
+        type:'POST',
+        url:'api/comment/post',
+        data:{
+            contentid: $('#contentId').val(),
+            content: $('#messageContent').val()
+        },
+        success:function (responseData) {
+            $('#messageContent').val('');
+            comments = responseData.data.comments.reverse();
+            renderComment();
+        }
+    })
+});
+
+$.ajax({
+    type:'get',
+    url:'api/comment',
+    data:{
+        contentid: $('#contentId').val(),
+    },
+    success:function (responseData) {
+        comments = responseData.data.reverse();
+        renderComment();
+    }
+});
+
+
+$('.pager').delegate('a','click',function () {
+    if($(this).parent().hasClass('prev')){
+        page--;
+    }else{
+        page++;
+    }
+    renderComment();
+});
+
+
+function isZero(data) {
+    if( Number(data) <10){
+        return '0'+data.toString();
+    }else{
+        return data.toString();
+    }
+}
+
+function formateDate(d) {
+    var date = new Date(d);
+    return isZero(date.getFullYear())+'年'+
+        isZero((date.getMonth()+1))+'月'+
+        isZero(date.getDate())+ '日  '+
+        isZero(date.getHours())+ ':'+
+        isZero(date.getMinutes())+ ':'+
+        isZero(date.getSeconds());
+}
+
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{%block main%}
+
+<link rel="stylesheet" type="text/css" href="/public/css/admin.css">
+
+
+<ol class="breadcrumb">
+    <li><a href="/admin">管理首页</a></li>
+    <li><span>作品列表</span></li>
+</ol>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">作品分类</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% if category == '' %}
+                    <li class="active"><a href="/admin/work">全部</a></li>
+                {% else %}
+                    <li><a href="/admin/work">全部</a></li>
+                {% endif %}
+
+                {% for item in categories %}
+                    {% if category == item.id %}
+                        <li class="active"><a href="/admin/work/?category={{ item.id }}">{{ item.name }}</a></li>
+                    {% else %}
+                        <li><a href="/admin/work/?category={{ item.id }}">{{ item.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<table class="table table-hover table-striped">
+    <tr>
+        <th>分类</th>
+        <th>封面图</th>
+        <th>名称</th>
+        <th>演示地址</th>
+        <th>线上地址</th>
+        <th>二维码</th>
+        <th>操作</th>
+    </tr>
+
+    {% for work in works %}
+    <tr>
+        <td>{{ work.category.name}}</td>
+        <td><img src="{{ work.imageUrl }}" alt="" style="max-width: 100%" height="90px"> </td>
+        <td>{{ work.name }}</td>
+        <td>{{ work.demoUrl }}</td>
+        <td>{{ work.onlineUrl }}</td>
+        <td><img src="{{ work.codeUrl }}" alt="" style="max-width: 100%" height="90px"></td>
+        <td>
+            <a href="/admin/work/edit?id={{work._id.toString()}}">修改</a> |
+            <a href="/admin/work/delete?id={{work._id.toString()}}">删除</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<!--{% include 'page.html' %}-->
+
+<div>
+    <ul class="pager">
+        <li class="previous"><a href="/admin/blog?page={{ page-1 }}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+
+        <li>
+            当前一共有{{ count }}条数据，每页显示{{ limit }}条数据，一共{{ pages }}页，当前第{{ page }}页
+        </li>
+
+        <li class="next"><a href="/admin/blog?page={{ page+1 }}">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+</div>
+
+
+{% endblock%}

@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* Firefox */
+  -webkit-box-sizing: border-box;
+  /* Safari */
+}
+nav {
+  background: black;
+  padding: 0 10px;
+}
+nav a {
+  color: white;
+  line-height: 40px;
+  text-decoration: none;
+}
+nav a:hover {
+  color: #eee;
+}
+nav a.on {
+  text-decoration: underline;
+}

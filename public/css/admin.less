@@ -1,0 +1,33 @@
+.clearfix() {
+    &:after {
+        content: ".";
+        display: block;
+        height:0;
+        clear:both;
+        visibility: hidden;
+    }
+}
+
+*{
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+
+
+nav{
+    background: black;
+    padding: 0 10px;
+    a{
+        color: white;
+        line-height:40px;
+        text-decoration: none;
+        &:hover{
+            color:#eee;
+        }
+    }
+    a.on{
+        text-decoration: underline;
+    }
+}
+
