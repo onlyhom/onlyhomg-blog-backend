@@ -568,7 +568,7 @@ router.get('/work',function (req, res) {
         where.category = req.query.category;
     }
 
-    Category.where(where).count().then(function (result_count) {
+    Work.where(where).count().then(function (result_count) {
 
         count = result_count;
 

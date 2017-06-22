@@ -188,48 +188,36 @@ router.get('/create_qrcode', function (req, res, next) {
 router.post('/work/add',function (req, res) {
 
     if( req.body.name == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '作品名称不能为空'
-        });
+        // res.render('admin/error',{
+        //     userInfo:req.userInfo,
+        //     message: '作品名称不能为空'
+        // });
+        responseData.message = '作品名称不能为空';
+        res.json(responseData);
+
         console.log('作品名称不能为空');
         return;
     }
 
-    if( req.body.imageUrl == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '作品封面不能为空'
-        });
-        console.log('作品封面不能为空');
-        return;
-    }
-
     if( req.body.description == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '简介不能为空'
-        });
+        // res.render('admin/error',{
+        //     userInfo:req.userInfo,
+        //     message: '简介不能为空'
+        // });
+
+        responseData.message = '简介不能为空';
+        res.json(responseData);
         return;
         console.log('简介不能为空');
-    }
-
-    if( req.body.demoUrl == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '演示地址不能为空'
-        });
-        console.log('演示地址不能为空');
-        return;
     }
 
     //保存数据到数据库
     new Work({
         category: req.body.category,
         name: req.body.name,
-        imageUrl: req.body.imageUrl,
+        imageUrl: req.body.imageUrl || '',
         description: req.body.description,
-        demoUrl: req.body.demoUrl,
+        demoUrl: req.body.demoUrl || '',
         onlineUrl: req.body.onlineUrl || '',
         codeUrl: req.body.codeUrl || ''
     }).save().then(function (result) {
@@ -244,40 +232,39 @@ router.post('/work/add',function (req, res) {
 router.post('/work/edit',function (req, res) {
 
     if( req.body.name == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '作品名称不能为空'
-        });
+        // res.render('admin/error',{
+        //     userInfo:req.userInfo,
+        //     message: '作品名称不能为空'
+        // });
+        responseData.message = '作品名称不能为空';
+        res.json(responseData);
+
         console.log('作品名称不能为空');
         return;
     }
 
-    if( req.body.imageUrl == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '作品封面不能为空'
-        });
-        console.log('作品封面不能为空');
-        return;
-    }
-
     if( req.body.description == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '简介不能为空'
-        });
+        // res.render('admin/error',{
+        //     userInfo:req.userInfo,
+        //     message: '简介不能为空'
+        // });
+
+        responseData.message = '简介不能为空';
+        res.json(responseData);
         return;
         console.log('简介不能为空');
     }
 
-    if( req.body.demoUrl == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '演示地址不能为空'
-        });
-        console.log('演示地址不能为空');
-        return;
-    }
+
+    console.log({
+        category: req.body.category,
+        name: req.body.name,
+        imageUrl: req.body.imageUrl,
+        description: req.body.description,
+        demoUrl: req.body.demoUrl,
+        onlineUrl: req.body.onlineUrl,
+        codeUrl: req.body.codeUrl
+    });
 
     //保存数据到数据库
     Work.update({_id:req.body.id}, {
@@ -286,8 +273,8 @@ router.post('/work/edit',function (req, res) {
         imageUrl: req.body.imageUrl,
         description: req.body.description,
         demoUrl: req.body.demoUrl,
-        onlineUrl: req.body.onlineUrl || '',
-        codeUrl: req.body.codeUrl || ''
+        onlineUrl: req.body.onlineUrl,
+        codeUrl: req.body.codeUrl
     }).then(function (result) {
         console.log('作品修改成功');
         responseData.data = {};

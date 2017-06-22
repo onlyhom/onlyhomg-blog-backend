@@ -25,18 +25,25 @@
 </div>
 
 
-<input type="hidden" name="id" id="id" value="{{ work.id }}">
+
+<!--<input type="hidden" name="id" id="id" value="{{ work.id }}">-->
+
+<!--<div class="form-group">-->
+    <!--<label>项目封面</label>-->
+    <!--<img src="{{ work.imageUrl }}" alt="" style="display: none;" id="hidden-image">-->
+    <!--<div id="cover-pic-toolbar">-->
+      <!--<span class="ql-formats">-->
+        <!--<button class="ql-image"></button>-->
+      <!--</span>-->
+    <!--</div>-->
+    <!--<div id="cover-pic-editor" style="min-height: 100px;"></div>-->
+<!--</div>-->
 
 <div class="form-group">
-    <label>项目封面</label>
-    <img src="{{ work.imageUrl }}" alt="" style="display: none;" id="hidden-image">
-    <div id="cover-pic-toolbar">
-      <span class="ql-formats">
-        <button class="ql-image"></button>
-      </span>
-    </div>
-    <div id="cover-pic-editor" style="min-height: 100px;"></div>
+    <label>封面地址</label>
+    <input type="text" class="form-control" id="image-url" placeholder="请输入封面地址" value="{{ work.imageUrl }}">
 </div>
+
 
 
 <div class="form-group">
@@ -71,27 +78,31 @@
 <button type="button" id="submit" class="btn btn-primary">提交</button>
 
 
-<link href="https://cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.2.6/quill.js" type="text/javascript"></script>
+<!--<link href="https://cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">-->
+<!--<script src="https://cdn.quilljs.com/1.2.6/quill.js" type="text/javascript"></script>-->
 
 <script src="/public/js/baseurl.js"></script>
 <script>
 
-    var quill_cover_pic = new Quill('#cover-pic-editor', {
-        modules: {
-            toolbar: '#cover-pic-toolbar'
-        },
-        placeholder: '请点击上方图标选择图片',
-        theme: 'snow'
-    });
+//    var quill_cover_pic = new Quill('#cover-pic-editor', {
+//        modules: {
+//            toolbar: '#cover-pic-toolbar'
+//        },
+//        placeholder: '请点击上方图标选择图片',
+//        theme: 'snow'
+//    });
 
-    var temp = { image:$('#hidden-image').attr('src')}
-    quill_cover_pic.setContents([{
-        insert: temp
-    }]);
+//    var temp = { image:$('#hidden-image').attr('src')}
+//    quill_cover_pic.setContents([{
+//        insert: temp
+//    }]);
 
     $('#submit').on('click',function () {
-        console.log($('#category').val());
+        var imagesUrl = $('#image-url').val() ? $('#image-url').val(): '';
+        var demoUrl = $('#demo-url').val() ? $('#demo-url').val(): '';
+        var onlineUrl = $('#online-url').val() ? $('#online-url').val(): '';
+        var codeUrl = $('#code-url').val()? $('#code-url').val(): '';
+
         $.ajax({
             type:'POST',
             url:'/api/work/edit',
@@ -99,16 +110,19 @@
                 id:$('#id').val(),
                 category: $('#category').val(),
                 name: $('#name').val(),
-                imageUrl:quill_cover_pic.getContents().ops[0].insert.image,
+                //imageUrl:quill_cover_pic.getContents().ops[0].insert.image,
+                imageUrl:imagesUrl,
                 description: $('#description').val(),
-                demoUrl: $('#demo-url').val(),
-                onlineUrl: $('#online-url').val(),
-                codeUrl: $('#code-url').val()
+                demoUrl: demoUrl,
+                onlineUrl: onlineUrl,
+                codeUrl: codeUrl
             },
             success:function (responseData) {
-                alert('修改成功');
                 if(responseData.message == 'success'){
-                    window.location.href = baseUrl+'/admin/work'
+                    alert('修改成功');
+                    window.location.href = baseUrl+'/admin/work';
+                }else{
+                    alert(responseData.message);
                 }
             }
         });

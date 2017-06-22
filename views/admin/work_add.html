@@ -18,14 +18,23 @@
     </select>
 </div>
 
+
+
+
+<!--<div class="form-group">-->
+    <!--<label>项目封面</label>-->
+    <!--<div id="cover-pic-toolbar">-->
+      <!--<span class="ql-formats">-->
+        <!--<button class="ql-image"></button>-->
+      <!--</span>-->
+    <!--</div>-->
+    <!--<div id="cover-pic-editor" style="min-height: 100px;"></div>-->
+<!--</div>-->
+
+
 <div class="form-group">
-    <label>项目封面</label>
-    <div id="cover-pic-toolbar">
-      <span class="ql-formats">
-        <button class="ql-image"></button>
-      </span>
-    </div>
-    <div id="cover-pic-editor" style="min-height: 100px;"></div>
+    <label>封面地址</label>
+    <input type="text" class="form-control" id="image-url" placeholder="请输入封面地址" value="www.onlyhom.com/projects/phonebu/cover.jpg">
 </div>
 
 
@@ -44,7 +53,7 @@
 
 <div class="form-group">
   <label>演示地址</label>
-  <input type="text" class="form-control" id="demo-url" placeholder="请填写项目演示地址">
+  <input type="text" class="form-control" id="demo-url" placeholder="请填写项目演示地址" value="www.onlyhom.com/projects/">
 </div>
 
 <div class="form-group">
@@ -61,40 +70,44 @@
 <button type="button" id="submit" class="btn btn-primary">提交</button>
 
 
-<link href="https://cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.2.6/quill.js" type="text/javascript"></script>
+<!--<link href="https://cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">-->
+<!--<script src="https://cdn.quilljs.com/1.2.6/quill.js" type="text/javascript"></script>-->
 
 <script src="/public/js/baseurl.js"></script>
 <script>
-    var quill_cover_pic = new Quill('#cover-pic-editor', {
-        modules: {
-            toolbar: '#cover-pic-toolbar'
-        },
-        placeholder: '请点击上方图标选择图片',
-        theme: 'snow'
-    });
+//    var quill_cover_pic = new Quill('#cover-pic-editor', {
+//        modules: {
+//            toolbar: '#cover-pic-toolbar'
+//        },
+//        placeholder: '请点击上方图标选择图片',
+//        theme: 'snow'
+//    });
 
 
     $('#submit').on('click',function () {
-        var demoUrl = $('#demo-url').val() ? '' : "http:/"+"/"+$('#demo-url').val();
-        var onlineUrl = $('#online-url').val() ? '' : "http:/"+"/"+$('#online-url').val();
-        var codeUrl = $('#code-url').val()? '' : "/api/create_qrcode?link_url=http:/"+"/"+$('#code-url').val();
+        var imagesUrl = $('#image-url').val() ? "http:/"+"/"+$('#image-url').val() : '';
+        var demoUrl = $('#demo-url').val() ? "http:/"+"/"+$('#demo-url').val() : '';
+        var onlineUrl = $('#online-url').val() ? "http:/"+"/"+$('#online-url').val() : '';
+        var codeUrl = $('#code-url').val()? "/api/create_qrcode?link_url=http:/"+"/"+$('#code-url').val() : '';
         $.ajax({
             type:'POST',
             url:'/api/work/add',
             data:{
                 category: $('#category').val(),
                 name: $('#name').val(),
-                imageUrl:quill_cover_pic.getContents().ops[0].insert.image,
+                //imageUrl:quill_cover_pic.getContents().ops[0].insert.image,
+                imageUrl:imagesUrl,
                 description: $('#description').val(),
                 demoUrl: demoUrl,
                 onlineUrl: onlineUrl,
                 codeUrl: codeUrl
             },
             success:function (responseData) {
-                alert('添加成功 将跳转到继续添加');
                 if(responseData.message == 'success'){
-                    window.location.href = baseUrl+'/admin/work/add'
+                    alert('添加成功 将跳转到继续添加');
+                    window.location.href = baseUrl+'/admin/work/add';
+                }else{
+                    alert(responseData.message);
                 }
             }
         });
