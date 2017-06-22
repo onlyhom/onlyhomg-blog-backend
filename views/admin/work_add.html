@@ -76,6 +76,9 @@
 
 
     $('#submit').on('click',function () {
+        var demoUrl = $('#demo-url').val() ? '' : "http:/"+"/"+$('#demo-url').val();
+        var onlineUrl = $('#online-url').val() ? '' : "http:/"+"/"+$('#online-url').val();
+        var codeUrl = $('#code-url').val()? '' : "/api/create_qrcode?link_url=http:/"+"/"+$('#code-url').val();
         $.ajax({
             type:'POST',
             url:'/api/work/add',
@@ -84,14 +87,14 @@
                 name: $('#name').val(),
                 imageUrl:quill_cover_pic.getContents().ops[0].insert.image,
                 description: $('#description').val(),
-                demoUrl: "http:/"+"/"+$('#demo-url').val(),
-                onlineUrl: "http:/"+"/"+$('#online-url').val(),
-                codeUrl: "/api/create_qrcode?link_url=http:/"+"/"+$('#code-url').val()
+                demoUrl: demoUrl,
+                onlineUrl: onlineUrl,
+                codeUrl: codeUrl
             },
             success:function (responseData) {
-                alert('添加成功');
+                alert('添加成功 将跳转到继续添加');
                 if(responseData.message == 'success'){
-                    window.location.href = baseUrl+'/admin/work'
+                    window.location.href = baseUrl+'/admin/work/add'
                 }
             }
         });
