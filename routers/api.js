@@ -291,8 +291,6 @@ router.get('/work',function (req, res) {
 
         Work.find().populate(['category']).sort({addTime: -1}).then(function (works) {
 
-            //console.log(works);
-
             for(var i=0; i<categories.length; i++){
 
                 var tempWorkArr = [];
@@ -301,7 +299,7 @@ router.get('/work',function (req, res) {
                 }
                 tempArr.push({
                     name:categories[i].name,
-                    data:tempWorkArr
+                    data:tempWorkArr.reverse()
                 });
             }
 
