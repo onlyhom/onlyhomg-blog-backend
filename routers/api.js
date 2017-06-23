@@ -257,6 +257,7 @@ router.post('/work/edit',function (req, res) {
 
 
     console.log({
+        _id:req.body.id,
         category: req.body.category,
         name: req.body.name,
         imageUrl: req.body.imageUrl,
@@ -276,6 +277,7 @@ router.post('/work/edit',function (req, res) {
         onlineUrl: req.body.onlineUrl,
         codeUrl: req.body.codeUrl
     }).then(function (result) {
+        console.log(result);
         console.log('作品修改成功');
         responseData.data = {};
         responseData.message = 'success';
