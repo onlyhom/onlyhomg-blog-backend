@@ -582,9 +582,7 @@ router.get('/work',function (req, res) {
         var skip = (page - 1) * limit; //忽略的条数
 
         //1升序 -1降序  _id带有时间戳
-        return Work.where(where).find().limit(limit).skip(skip).populate(['category']).sort({
-            addTime: -1
-        });
+        return Work.where(where).find().sort({_id: -1}).limit(limit).skip(skip).populate(['category']);
 
     }).then(function (works) {
 
@@ -592,7 +590,7 @@ router.get('/work',function (req, res) {
             userInfo: req.userInfo,
             categories: categories,
             category: req.query.category,
-            works : works.reverse(),
+            works : works,
             count : count,
             pages : pages,
             limit : limit,
