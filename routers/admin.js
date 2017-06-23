@@ -592,7 +592,7 @@ router.get('/work',function (req, res) {
             userInfo: req.userInfo,
             categories: categories,
             category: req.query.category,
-            works : works,
+            works : works.reverse(),
             count : count,
             pages : pages,
             limit : limit,
