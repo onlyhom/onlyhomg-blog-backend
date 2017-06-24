@@ -105,9 +105,11 @@
                     delta:quill.getContents().ops
                 },
                 success:function (responseData) {
-                    alert('修改成功');
                     if(responseData.message == 'success'){
-                        window.location.href = baseUrl+'/admin/blog'
+                        alert('修改成功');
+                        window.location.href = baseUrl+'/admin/blog';
+                    }else{
+                        alert(responseData.message);
                     }
                 }
             });

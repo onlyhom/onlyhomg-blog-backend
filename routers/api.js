@@ -54,6 +54,7 @@ router.get('/blog_detail',function (req, res, next) {
     }).then(function (blog) {
         responseData.data = blog;
         responseData.message = 'success';
+        //console.log(Buffer.byteLength(responseData));
         res.json(responseData);
     })
 
@@ -66,29 +67,31 @@ router.get('/blog_detail',function (req, res, next) {
 router.post('/blog/add',function (req, res) {
 
     if( req.body.title == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '标题不能为空'
-        });
+        responseData.data = {};
+        responseData.message = '标题不能为空';
+        res.json(responseData);
+
+        console.log('标题不能为空');
         return;
     }
 
     if( req.body.description == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '简介不能为空'
-        });
+        responseData.data = {};
+        responseData.message = '简介不能为空';
+        res.json(responseData);
+
+        console.log('简介不能为空');
         return;
     }
 
     if( req.body.content == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '内容不能为空'
-        });
+        responseData.data = {};
+        responseData.message = '内容不能为空';
+        res.json(responseData);
+
+        console.log('内容不能为空');
         return;
     }
-
 
     //保存数据到数据库
     new Blog({
@@ -109,26 +112,29 @@ router.post('/blog/add',function (req, res) {
 router.post('/blog/edit',function (req, res) {
 
     if( req.body.title == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '标题不能为空'
-        });
+        responseData.data = {};
+        responseData.message = '标题不能为空';
+        res.json(responseData);
+
+        console.log('标题不能为空');
         return;
     }
 
     if( req.body.description == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '简介不能为空'
-        });
+        responseData.data = {};
+        responseData.message = '简介不能为空';
+        res.json(responseData);
+
+        console.log('简介不能为空');
         return;
     }
 
     if( req.body.content == '' ){
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message: '内容不能为空'
-        });
+        responseData.data = {};
+        responseData.message = '内容不能为空';
+        res.json(responseData);
+
+        console.log('内容不能为空');
         return;
     }
 
@@ -255,18 +261,6 @@ router.post('/work/edit',function (req, res) {
         console.log('简介不能为空');
     }
 
-
-    console.log({
-        _id:req.body.id,
-        category: req.body.category,
-        name: req.body.name,
-        imageUrl: req.body.imageUrl,
-        description: req.body.description,
-        demoUrl: req.body.demoUrl,
-        onlineUrl: req.body.onlineUrl,
-        codeUrl: req.body.codeUrl
-    });
-
     //保存数据到数据库
     Work.update({_id:req.body.id}, {
         category: req.body.category,
@@ -277,7 +271,6 @@ router.post('/work/edit',function (req, res) {
         onlineUrl: req.body.onlineUrl,
         codeUrl: req.body.codeUrl
     }).then(function (result) {
-        console.log(result);
         console.log('作品修改成功');
         responseData.data = {};
         responseData.message = 'success';
@@ -331,21 +324,18 @@ router.post('/user/register',function (req, res, next) {
         res.json(responseData);
         return;
     }
-
     if(password == ''){
         responseData.code = 2;
         responseData.message = '密码不能为空';
         res.json(responseData);
         return;
     }
-
     if(password != repassword){
         responseData.code = 3;
         responseData.message = '两次输入密码不一致';
         res.json(responseData);
         return;
     }
-
 
     //数据库验证-用户名是否存在
     User.findOne({
@@ -366,12 +356,9 @@ router.post('/user/register',function (req, res, next) {
         });
         return user.save();
     }).then(function (newUserInfo) {
-        //console.log(newUserInfo);
         responseData.message = '注册成功';
         res.json(responseData);
     });
-
-
 
 });
 
@@ -457,10 +444,6 @@ router.post('/comment/post',function (req, res, next) {
         res.json(responseData);
     })
 });
-
-
-
-
 
 
 module.exports =  router;
