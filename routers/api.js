@@ -26,17 +26,22 @@ router.use(function (req, res, next) {
 
 // ======== 前端展示 ==========
 
+function addZero(string) {
+    return parseInt(string) < 10? '0'+string : string ;
+}
+
+
 // 博客列表展示
 router.get('/blog',function (req, res, next) {
-    Blog.find().sort({_id:-1}).then(function (contents) {
+    Blog.find().sort({_id:-1}).then(function (blogs) {
         var tempData = [];
-        for(var i = 0; i<contents.length; i++){
+        for(var i = 0; i<blogs.length; i++){
             tempData.push({
-                id:contents[i].id,
-                day:contents[i].addTime.getDate(),
-                year:contents[i].addTime.getFullYear() +'-'+ (contents[i].addTime.getMonth()+1),
-                title:contents[i].title,
-                description:contents[i].description
+                id:blogs[i].id,
+                day:addZero(blogs[i].addTime.getDate()),
+                year:blogs[i].addTime.getFullYear() +'-'+ addZero((blogs[i].addTime.getMonth()+1)),
+                title:blogs[i].title,
+                description:blogs[i].description
             });
         }
         responseData.data = tempData;
@@ -52,7 +57,11 @@ router.get('/blog_detail',function (req, res, next) {
     Blog.findOne({
         _id: id
     }).then(function (blog) {
-        responseData.data = blog;
+        responseData.data = {
+            addTime:blog.addTime,
+            content:blog.content,
+            title:blog.title
+        };
         responseData.message = 'success';
         //console.log(Buffer.byteLength(responseData));
         res.json(responseData);
